@@ -96,15 +96,15 @@ const RegistrationDetails = () => {
               {/* College Details */}
               <div className="flex-1 text-center px-4">
                 <h1
-                  className="text-[#B8860B] text-2xl font-bold"
+                  className="text-[#B8860B] text-3xl font-bold"
                   style={{ fontFamily: "Times New Roman, serif" }}
                 >
                   City College
                 </h1>
-                <p className="text-[#B8860B] text-sm font-bold mt-1">
+                <p className="text-[#B8860B] text-xl font-bold mt-1">
                   COLLEGE CODE - 290023
                 </p>
-                <p className="text-[#B8860B] text-xs font-bold mt-1">
+                <p className="text-[#B8860B] text-xl font-bold mt-1">
                   Tiwariganj, Chinhat, Ayodhya Road, Lucknow
                 </p>
               </div>
