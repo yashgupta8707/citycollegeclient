@@ -386,7 +386,7 @@ const RegistrationDetails = () => {
         <div className="no-print text-center mt-8 space-y-4 sm:space-y-0 sm:space-x-4">
           <button
             onClick={handlePrint}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg inline-flex items-center gap-3 transition-all"
+            className="bg-amber-400 text-black px-8 py-4 rounded-lg font-bold text-lg shadow-lg inline-flex items-center gap-3 transition-all"
           >
             <FaPrint className="text-xl" />
             Print Registration Form
@@ -394,7 +394,7 @@ const RegistrationDetails = () => {
 
           <button
             onClick={() => navigate("/")}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg inline-flex items-center gap-3 transition-all"
+            className="bg-amber-400 text-black px-8 py-4 rounded-lg font-bold text-lg shadow-lg inline-flex items-center gap-3 transition-all"
           >
             <FaHome className="text-xl" />
             Back to Home
