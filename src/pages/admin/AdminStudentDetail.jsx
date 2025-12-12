@@ -259,7 +259,7 @@ const AdminStudentDetail = () => {
                 {/* College Details */}
                 <div className="flex-1 text-center px-4">
                   <h1
-                    className="text-[#B8860B] text-3xl font-bold"
+                    className="text-[#B8860B] text-xl font-bold"
                     style={{ fontFamily: "Times New Roman, serif" }}
                   >
                     City College
