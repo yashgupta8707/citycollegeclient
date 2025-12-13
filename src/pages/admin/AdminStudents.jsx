@@ -5,10 +5,12 @@ import {
   FaSearch,
   FaArrowLeft,
   FaSignOutAlt,
-  FaEye
+  FaEye,
+  FaFileExcel
 } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 
 const AdminStudents = () => {
   const navigate = useNavigate();
@@ -113,6 +115,161 @@ const AdminStudents = () => {
     navigate('/admin/login');
   };
 
+  const downloadExcel = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      if (!token) {
+        navigate('/admin/login');
+        return;
+      }
+
+      toast.info('Fetching all students data...');
+
+      // Fetch all students without pagination
+      const response = await axios.get(
+        'https://citycollegeserver.onrender.com/api/admin/students?limit=10000',
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (response.data.success) {
+        const allStudents = response.data.students;
+
+        // Prepare data for Excel
+        const excelData = allStudents.map((student, index) => ({
+          'S.No': index + 1,
+          'Registration No': student.registrationNo || '',
+          'Student Name': student.studentName || student.fullName || '',
+          'Date of Birth': student.dateOfBirth ? new Date(student.dateOfBirth).toLocaleDateString('en-GB') : '',
+          'Gender': student.gender || '',
+          'Category': student.category || '',
+          'Sub Category': student.subCategory || '',
+          'Father Name': student.fatherName || '',
+          'Mother Name': student.motherName || '',
+          'Phone': student.phone || '',
+          'Father Contact': student.fatherContact || '',
+          'Email': student.email || '',
+          'Aadhar Number': student.adhaarNo || '',
+          'Address': student.address || '',
+          'District': student.district || '',
+          'State': student.state || '',
+          'Pin Code': student.pincode || '',
+          'PAN/Voter ID': student.panVoterId || student.panVoterIdNumber || '',
+          'Course': student.course || '',
+          'Status': student.status || '',
+          '10th Board': student.tenthBoard || '',
+          '10th Year': student.tenthYear || '',
+          '10th Marksheet No': student.tenthMarksheetNo || '',
+          '10th Roll No': student.tenthRollNo || '',
+          '10th Total Marks': student.tenthTotalMarks || '',
+          '10th Marks Obtained': student.tenthMarksObtained || '',
+          '10th Percentage': student.tenthPercentage || '',
+          '12th Board': student.twelfthBoard || '',
+          '12th Year': student.twelfthYear || '',
+          '12th Marksheet No': student.twelfthMarksheetNo || '',
+          '12th Roll No': student.twelfthRollNo || '',
+          '12th Total Marks': student.twelfthTotalMarks || '',
+          '12th Marks Obtained': student.twelfthMarksObtained || '',
+          '12th Percentage': student.twelfthPercentage || '',
+          'Graduation Board': student.graduationBoard || '',
+          'Graduation Year': student.graduationYear || '',
+          'Graduation Marksheet No': student.graduationMarksheetNo || '',
+          'Graduation Roll No': student.graduationRollNo || '',
+          'Graduation Total Marks': student.graduationTotalMarks || '',
+          'Graduation Marks Obtained': student.graduationMarksObtained || '',
+          'Graduation Percentage': student.graduationPercentage || '',
+          'Other Board': student.otherBoard || '',
+          'Other Year': student.otherYear || '',
+          'Other Marksheet No': student.otherMarksheetNo || '',
+          'Other Roll No': student.otherRollNo || '',
+          'Other Total Marks': student.otherTotalMarks || '',
+          'Other Marks Obtained': student.otherMarksObtained || '',
+          'Other Percentage': student.otherPercentage || '',
+          'Submission Date': student.createdAt ? new Date(student.createdAt).toLocaleString('en-IN') : ''
+        }));
+
+        // Create worksheet
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+        // Set column widths
+        const columnWidths = [
+          { wch: 6 },  // S.No
+          { wch: 15 }, // Registration No
+          { wch: 25 }, // Student Name
+          { wch: 12 }, // Date of Birth
+          { wch: 8 },  // Gender
+          { wch: 12 }, // Category
+          { wch: 15 }, // Sub Category
+          { wch: 25 }, // Father Name
+          { wch: 25 }, // Mother Name
+          { wch: 15 }, // Phone
+          { wch: 15 }, // Father Contact
+          { wch: 30 }, // Email
+          { wch: 15 }, // Aadhar Number
+          { wch: 40 }, // Address
+          { wch: 15 }, // District
+          { wch: 15 }, // State
+          { wch: 10 }, // Pin Code
+          { wch: 18 }, // PAN/Voter ID
+          { wch: 12 }, // Course
+          { wch: 10 }, // Status
+          { wch: 20 }, // 10th Board
+          { wch: 8 },  // 10th Year
+          { wch: 18 }, // 10th Marksheet No
+          { wch: 12 }, // 10th Roll No
+          { wch: 15 }, // 10th Total Marks
+          { wch: 18 }, // 10th Marks Obtained
+          { wch: 15 }, // 10th Percentage
+          { wch: 20 }, // 12th Board
+          { wch: 8 },  // 12th Year
+          { wch: 18 }, // 12th Marksheet No
+          { wch: 12 }, // 12th Roll No
+          { wch: 15 }, // 12th Total Marks
+          { wch: 18 }, // 12th Marks Obtained
+          { wch: 15 }, // 12th Percentage
+          { wch: 25 }, // Graduation Board
+          { wch: 8 },  // Graduation Year
+          { wch: 22 }, // Graduation Marksheet No
+          { wch: 15 }, // Graduation Roll No
+          { wch: 18 }, // Graduation Total Marks
+          { wch: 22 }, // Graduation Marks Obtained
+          { wch: 18 }, // Graduation Percentage
+          { wch: 20 }, // Other Board
+          { wch: 8 },  // Other Year
+          { wch: 18 }, // Other Marksheet No
+          { wch: 12 }, // Other Roll No
+          { wch: 15 }, // Other Total Marks
+          { wch: 18 }, // Other Marks Obtained
+          { wch: 15 }, // Other Percentage
+          { wch: 20 }  // Submission Date
+        ];
+        worksheet['!cols'] = columnWidths;
+
+        // Create workbook
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Students');
+
+        // Generate filename with current date
+        const fileName = `Students_Data_${new Date().toISOString().split('T')[0]}.xlsx`;
+
+        // Download file
+        XLSX.writeFile(workbook, fileName);
+
+        toast.success(`Excel file downloaded successfully! Total students: ${allStudents.length}`);
+      }
+    } catch (error) {
+      console.error('Error downloading Excel:', error);
+      if (error.response?.status === 401) {
+        localStorage.removeItem('adminToken');
+        navigate('/admin/login');
+        toast.error('Session expired. Please login again.');
+      } else {
+        toast.error('Failed to download Excel file');
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-100 print:bg-white">
       {/* Top Navigation */}
@@ -211,7 +368,17 @@ const AdminStudents = () => {
               Showing <span className="font-semibold text-slate-700">{students.length}</span> of{' '}
               <span className="font-semibold text-slate-700">{pagination.totalStudents}</span> students
             </p>
-            <p>Page {pagination.currentPage} of {pagination.totalPages}</p>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={downloadExcel}
+                className="inline-flex items-center gap-2 rounded-lg bg-green-600 hover:bg-green-700 px-4 py-2 text-xs font-semibold text-white shadow-sm transition"
+                title="Download all students data as Excel"
+              >
+                <FaFileExcel className="text-sm" />
+                <span>Download Excel</span>
+              </button>
+              <p>Page {pagination.currentPage} of {pagination.totalPages}</p>
+            </div>
           </div>
         </div>
 
