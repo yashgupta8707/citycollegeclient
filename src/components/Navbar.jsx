@@ -170,7 +170,7 @@ const Navbar = () => {
               </div>
 
               <Link
-                to="/registration"
+                to="/pdfs/Registration%20Open.pdf"
                 className="btn-primary"
               >
                 Online Registration
@@ -273,7 +273,7 @@ const Navbar = () => {
                 </div>
 
                 <Link
-                  to="/registration"
+                  to="/pdfs/Registration%20Open.pdf"
                   className="btn-primary text-center"
                 >
                   Online Registration
