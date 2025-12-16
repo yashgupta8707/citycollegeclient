@@ -168,13 +168,14 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-
-              <Link
-                to="/pdfs/Registration%20Open.pdf"
-                className="btn-primary"
-              >
-                Online Registration
-              </Link>
+<a
+  href="/pdfs/Registration%20Open.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn-primary"
+>
+  Online Registration
+</a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -272,12 +273,14 @@ const Navbar = () => {
                   )}
                 </div>
 
-                <Link
-                  to="/pdfs/Registration%20Open.pdf"
-                  className="btn-primary text-center"
-                >
-                  Online Registration
-                </Link>
+                <a
+  href="/pdfs/Registration%20Open.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn-primary text-center"
+>
+  Online Registration
+</a>
               </div>
             </div>
           )}
