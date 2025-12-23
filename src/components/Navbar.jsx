@@ -26,14 +26,20 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+      // Only apply click-outside logic on desktop (lg breakpoint and above)
+      const isDesktop = window.innerWidth >= 1024;
+
+      if (isDesktop && navRef.current && !navRef.current.contains(event.target)) {
         setAboutDropdown(false);
         setDeledDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    // Only add listener on desktop
+    if (window.innerWidth >= 1024) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
   }, []);
 
   const navLinks = [
@@ -116,31 +122,33 @@ const Navbar = () => {
                         D.El.Ed <FaChevronDown className="ml-1 text-sm" />
                       </button>
                       {deledDropdown && (
-                        <div className="absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-lg py-2 animate-fade-in-down">
-                          <a
-                            href="/pdfs/Registration%20Open.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
-                          >
-                            Registration Open
-                          </a>
-                          <a
-                            href="/pdfs/Eligibility.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
-                          >
-                            Eligibility
-                          </a>
-                          <a
-                            href="/pdfs/cc.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
-                          >
-                            Rank
-                          </a>
+                        <div className="absolute top-full left-0 pt-2 w-56 animate-fade-in-down">
+                          <div className="bg-white shadow-xl rounded-lg py-2">
+                            <a
+                              href="/pdfs/Registration%20Open.pdf"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
+                            >
+                              Registration Open
+                            </a>
+                            <a
+                              href="/pdfs/Eligibility.pdf"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
+                            >
+                              Eligibility
+                            </a>
+                            <a
+                              href="/pdfs/cc.pdf"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
+                            >
+                              Rank
+                            </a>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -177,21 +185,23 @@ const Navbar = () => {
                   About Us <FaChevronDown className="ml-1 text-sm" />
                 </button>
                 {aboutDropdown && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white shadow-xl rounded-lg py-2 animate-fade-in-down">
-                    {aboutLinks.map((link) => (
-                      <Link
-                        key={link.path}
-                        to={link.path}
-                        className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
+                  <div className="absolute top-full left-0 pt-2 w-56 animate-fade-in-down">
+                    <div className="bg-white shadow-xl rounded-lg py-2">
+                      {aboutLinks.map((link) => (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
+                        >
+                          {link.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
 <a
-  href="/pdfs/Registration%20Open.pdf"
+  href="/registration"
   target="_blank"
   rel="noopener noreferrer"
   className="btn-primary"
@@ -220,7 +230,7 @@ const Navbar = () => {
                       <div key={link.name}>
                         <button
                           onClick={() => setDeledDropdown(!deledDropdown)}
-                          className="font-semibold py-2 transition-colors hover:text-secondary-500 flex items-center justify-between w-full"
+                          className="font-semibold py-2 transition-colors hover:text-secondary-500 flex items-center justify-between w-full text-left"
                         >
                           D.El.Ed
                           <FaChevronDown
@@ -278,7 +288,10 @@ const Navbar = () => {
                 {/* Mobile About Dropdown */}
                 <div>
                   <button
-                    onClick={() => setAboutDropdown(!aboutDropdown)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setAboutDropdown(!aboutDropdown);
+                    }}
                     className="font-semibold py-2 transition-colors hover:text-secondary-500 flex items-center justify-between w-full"
                   >
                     About Us{' '}
@@ -295,6 +308,7 @@ const Navbar = () => {
                           key={link.path}
                           to={link.path}
                           className="block py-2 text-gray-600 hover:text-secondary-500 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           {link.name}
                         </Link>
@@ -304,7 +318,7 @@ const Navbar = () => {
                 </div>
 
                 <a
-  href="/pdfs/Registration%20Open.pdf"
+  href="/registration"
   target="_blank"
   rel="noopener noreferrer"
   className="btn-primary text-center"
