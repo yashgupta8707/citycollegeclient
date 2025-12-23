@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaBars, FaTimes, FaPhone, FaEnvelope, FaChevronDown } from 'react-icons/fa';
 
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [aboutDropdown, setAboutDropdown] = useState(false);
   const [deledDropdown, setDeledDropdown] = useState(false);
   const location = useLocation();
+  const navRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +23,18 @@ const Navbar = () => {
     setAboutDropdown(false);
     setDeledDropdown(false);
   }, [location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setAboutDropdown(false);
+        setDeledDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -62,6 +75,7 @@ const Navbar = () => {
 
       {/* Main Navbar */}
       <nav
+        ref={navRef}
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled ? 'bg-neutral-400 shadow-lg' : 'bg-white'
         }`}
@@ -118,6 +132,14 @@ const Navbar = () => {
                             className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
                           >
                             Eligibility
+                          </a>
+                          <a
+                            href="/pdfs/cc.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block px-4 py-2 hover:bg-secondary-50 hover:text-secondary-500 transition-colors"
+                          >
+                            Rank
                           </a>
                         </div>
                       )}
@@ -207,7 +229,7 @@ const Navbar = () => {
                           />
                         </button>
                         {deledDropdown && (
-                          <div className="pl-4 mt-2 space-y-2">
+                          <div className="pl-4 mt-2 space-y-2 animate-fade-in-down">
                             <a
                               href="/pdfs/Registration%20Open.pdf"
                               target="_blank"
@@ -223,6 +245,14 @@ const Navbar = () => {
                               className="block py-2 text-gray-600 hover:text-secondary-500 transition-colors"
                             >
                               Eligibility
+                            </a>
+                            <a
+                              href="/pdfs/cc.pdf"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block py-2 text-gray-600 hover:text-secondary-500 transition-colors"
+                            >
+                              Rank
                             </a>
                           </div>
                         )}
@@ -258,7 +288,7 @@ const Navbar = () => {
                     />
                   </button>
                   {aboutDropdown && (
-                    <div className="pl-4 mt-2 space-y-2">
+                    <div className="pl-4 mt-2 space-y-2 animate-fade-in-down">
                       {aboutLinks.map((link) => (
                         <Link
                           key={link.path}
