@@ -136,16 +136,24 @@ const AdminStudents = () => {
       if (response.data.success) {
         const allStudents = response.data.students;
 
+        // Build a rank map: lowest registration number → rank 0 (earliest date)
+        const sorted = [...allStudents].sort((a, b) => {
+          const regA = (a.registrationNo || '').toLowerCase();
+          const regB = (b.registrationNo || '').toLowerCase();
+          return regA < regB ? -1 : regA > regB ? 1 : 0;
+        });
+        const rankMap = new Map(sorted.map((s, i) => [s.registrationNo, i]));
+
         // Generate a deterministic submission timestamp spread across
-        // 10/12/2025 – 15/12/2025, 10:00 AM – 5:30 PM IST, based on position
-        const generateSubmissionDate = (index, total) => {
+        // 10/12/2025 – 15/12/2025, 10:00 AM – 5:30 PM IST, based on ascending rank
+        const generateSubmissionDate = (rank, total) => {
           // Dec 10 2025 10:00 AM IST = Dec 10 2025 04:30:00 UTC
           const startUTC = Date.UTC(2025, 11, 10, 4, 30, 0); // month is 0-indexed
           const workingMsPerDay = (7 * 60 + 30) * 60 * 1000; // 7.5 h
           const totalDays = 6; // Dec 10–15 inclusive
           const totalWorkingMs = totalDays * workingMsPerDay;
 
-          const fraction = total <= 1 ? 0 : index / (total - 1);
+          const fraction = total <= 1 ? 0 : rank / (total - 1);
           const offsetMs = Math.floor(fraction * (totalWorkingMs - 1));
 
           const dayIndex = Math.floor(offsetMs / workingMsPerDay);
@@ -208,7 +216,7 @@ const AdminStudents = () => {
           'Other Total Marks': student.otherTotalMarks || '',
           'Other Marks Obtained': student.otherMarksObtained || '',
           'Other Percentage': student.otherPercentage || '',
-          'Submission Date': generateSubmissionDate(index, allStudents.length)
+          'Submission Date': generateSubmissionDate(rankMap.get(student.registrationNo) ?? index, allStudents.length)
         }));
 
         // Create worksheet
