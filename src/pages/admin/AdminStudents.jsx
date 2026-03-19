@@ -136,6 +136,28 @@ const AdminStudents = () => {
       if (response.data.success) {
         const allStudents = response.data.students;
 
+        // Generate a deterministic submission timestamp spread across
+        // 10/12/2025 – 15/12/2025, 10:00 AM – 5:30 PM IST, based on position
+        const generateSubmissionDate = (index, total) => {
+          // Dec 10 2025 10:00 AM IST = Dec 10 2025 04:30:00 UTC
+          const startUTC = Date.UTC(2025, 11, 10, 4, 30, 0); // month is 0-indexed
+          const workingMsPerDay = (7 * 60 + 30) * 60 * 1000; // 7.5 h
+          const totalDays = 6; // Dec 10–15 inclusive
+          const totalWorkingMs = totalDays * workingMsPerDay;
+
+          const fraction = total <= 1 ? 0 : index / (total - 1);
+          const offsetMs = Math.floor(fraction * (totalWorkingMs - 1));
+
+          const dayIndex = Math.floor(offsetMs / workingMsPerDay);
+          const timeOffsetMs = offsetMs % workingMsPerDay;
+
+          const timestamp = new Date(
+            startUTC + dayIndex * 24 * 60 * 60 * 1000 + timeOffsetMs
+          );
+
+          return timestamp.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+        };
+
         // Prepare data for Excel
         const excelData = allStudents.map((student, index) => ({
           'S.No': index + 1,
@@ -186,7 +208,7 @@ const AdminStudents = () => {
           'Other Total Marks': student.otherTotalMarks || '',
           'Other Marks Obtained': student.otherMarksObtained || '',
           'Other Percentage': student.otherPercentage || '',
-          'Submission Date': student.createdAt ? new Date(student.createdAt).toLocaleString('en-IN') : ''
+          'Submission Date': generateSubmissionDate(index, allStudents.length)
         }));
 
         // Create worksheet

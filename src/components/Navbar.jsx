@@ -1,6 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaTimes, FaPhone, FaEnvelope, FaChevronDown } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaBars,
+  FaTimes,
+  FaPhone,
+  FaEnvelope,
+  FaChevronDown,
+} from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,8 +20,8 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -29,7 +35,11 @@ const Navbar = () => {
       // Only apply click-outside logic on desktop (lg breakpoint and above)
       const isDesktop = window.innerWidth >= 1024;
 
-      if (isDesktop && navRef.current && !navRef.current.contains(event.target)) {
+      if (
+        isDesktop &&
+        navRef.current &&
+        !navRef.current.contains(event.target)
+      ) {
         setAboutDropdown(false);
         setDeledDropdown(false);
       }
@@ -37,23 +47,24 @@ const Navbar = () => {
 
     // Only add listener on desktop
     if (window.innerWidth >= 1024) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Courses', path: '/courses' },
-    { name: 'Facilities', path: '/facilities' },
-    { name: 'D.El.Ed', path: '/deled' },
-    { name: 'Contact', path: '/contact' },
+    { name: "Home", path: "/" },
+    { name: "Courses", path: "/courses" },
+    { name: "Facilities", path: "/facilities" },
+    { name: "D.El.Ed", path: "/deled" },
+    { name: "Contact", path: "/contact" },
   ];
 
   const aboutLinks = [
-    { name: 'About Us', path: '/about' },
-    { name: 'Founder Message', path: '/founder-message' },
-    { name: 'Director Message', path: '/director-message' },
+    { name: "About Us", path: "/about" },
+    { name: "Founder Message", path: "/founder-message" },
+    { name: "Director Message", path: "/director-message" },
   ];
 
   return (
@@ -62,12 +73,18 @@ const Navbar = () => {
       <div className="bg-primary-900 text-black bg-[#867299] py-2 px-4 md:px-8 hidden lg:block">
         <div className="container mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center space-x-6">
-            <a href="tel:918400133333" className="flex items-center hover:text-secondary-400 transition-colors">
+            <a
+              href="tel:918400133333"
+              className="flex items-center hover:text-secondary-400 transition-colors"
+            >
               <FaPhone className="mr-2" />
               +91 8400133333
             </a>
             <span className="text-gray-400">|</span>
-            <a href="tel:918177001081" className="flex items-center hover:text-secondary-400 transition-colors">
+            <a
+              href="tel:918177001081"
+              className="flex items-center hover:text-secondary-400 transition-colors"
+            >
               <FaPhone className="mr-2" />
               +91 8177001081
             </a>
@@ -83,7 +100,7 @@ const Navbar = () => {
       <nav
         ref={navRef}
         className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-neutral-400 shadow-lg' : 'bg-white'
+          scrolled ? "bg-neutral-400 shadow-lg" : "bg-white"
         }`}
       >
         <div className="container mx-auto px-4 md:px-8">
@@ -106,7 +123,7 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center space-x-8">
               {navLinks.map((link) => {
                 // D.El.Ed dropdown (desktop)
-                if (link.name === 'D.El.Ed') {
+                if (link.name === "D.El.Ed") {
                   return (
                     <div
                       key={link.name}
@@ -116,7 +133,9 @@ const Navbar = () => {
                     >
                       <button
                         className={`font-semibold transition-colors hover:text-secondary-500 flex items-center ${
-                          location.pathname === link.path ? 'text-secondary-500' : 'text-gray-700'
+                          location.pathname === link.path
+                            ? "text-secondary-500"
+                            : "text-gray-700"
                         }`}
                       >
                         D.El.Ed <FaChevronDown className="ml-1 text-sm" />
@@ -161,7 +180,9 @@ const Navbar = () => {
                     key={link.path}
                     to={link.path}
                     className={`font-semibold transition-colors hover:text-secondary-500 ${
-                      location.pathname === link.path ? 'text-secondary-500' : 'text-gray-700'
+                      location.pathname === link.path
+                        ? "text-secondary-500"
+                        : "text-gray-700"
                     }`}
                   >
                     {link.name}
@@ -177,9 +198,9 @@ const Navbar = () => {
               >
                 <button
                   className={`font-semibold transition-colors hover:text-secondary-500 flex items-center ${
-                    aboutLinks.some(link => location.pathname === link.path)
-                      ? 'text-secondary-500'
-                      : 'text-gray-700'
+                    aboutLinks.some((link) => location.pathname === link.path)
+                      ? "text-secondary-500"
+                      : "text-gray-700"
                   }`}
                 >
                   About Us <FaChevronDown className="ml-1 text-sm" />
@@ -200,14 +221,14 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-<a
-  href="/registration"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="btn-primary"
->
-  Online Registration
-</a>
+              <a
+                href="/registration"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Online Registration
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -225,7 +246,7 @@ const Navbar = () => {
               <div className="flex flex-col space-y-3">
                 {navLinks.map((link) => {
                   // D.El.Ed dropdown (mobile)
-                  if (link.name === 'D.El.Ed') {
+                  if (link.name === "D.El.Ed") {
                     return (
                       <div key={link.name}>
                         <button
@@ -235,7 +256,7 @@ const Navbar = () => {
                           D.El.Ed
                           <FaChevronDown
                             className={`transition-transform ${
-                              deledDropdown ? 'rotate-180' : ''
+                              deledDropdown ? "rotate-180" : ""
                             }`}
                           />
                         </button>
@@ -277,7 +298,9 @@ const Navbar = () => {
                       key={link.path}
                       to={link.path}
                       className={`font-semibold py-2 transition-colors hover:text-secondary-500 ${
-                        location.pathname === link.path ? 'text-secondary-500' : 'text-gray-700'
+                        location.pathname === link.path
+                          ? "text-secondary-500"
+                          : "text-gray-700"
                       }`}
                     >
                       {link.name}
@@ -294,10 +317,10 @@ const Navbar = () => {
                     }}
                     className="font-semibold py-2 transition-colors hover:text-secondary-500 flex items-center justify-between w-full"
                   >
-                    About Us{' '}
+                    About Us{" "}
                     <FaChevronDown
                       className={`transition-transform ${
-                        aboutDropdown ? 'rotate-180' : ''
+                        aboutDropdown ? "rotate-180" : ""
                       }`}
                     />
                   </button>
@@ -318,13 +341,13 @@ const Navbar = () => {
                 </div>
 
                 <a
-  href="/registration"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="btn-primary text-center"
->
-  Online Registration
-</a>
+                  href="/registration"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary text-center"
+                >
+                  Online Registration
+                </a>
               </div>
             </div>
           )}
