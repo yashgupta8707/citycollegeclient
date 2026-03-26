@@ -222,7 +222,7 @@ const Navbar = () => {
                 )}
               </div>
               <a
-                href="/registration"
+                href="/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
@@ -341,7 +341,7 @@ const Navbar = () => {
                 </div>
 
                 <a
-                  href="/registration"
+                  href="/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary text-center"
