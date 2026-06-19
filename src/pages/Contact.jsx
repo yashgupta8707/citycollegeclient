@@ -199,15 +199,8 @@ const Contact = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center justify-center"
             >
-              <div className="text-center">
-                <div className="bg-green-500 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <FaPhone className="text-white text-5xl" />
-                </div>
-                <h3 className="text-2xl font-bold text-primary-900 mb-4">LIVE SUPPORT AVAILABLE</h3>
-                <p className="text-gray-600">Call us for immediate assistance</p>
-              </div>
+              <div className="npf_wgts" data-height="400px" data-w="6388ee37acf31638a9cd52b38284dc32"></div>
             </motion.div>
           </div>
         </div>
